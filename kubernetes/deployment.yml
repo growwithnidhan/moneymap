@@ -1,0 +1,35 @@
+# Django App Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moneymap-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: moneymap
+  template:
+    metadata:
+      labels:
+        app: moneymap
+    spec:
+      containers:
+      - name: moneymap
+        image: moneymap:latest
+        ports:
+        - containerPort: 8000
+
+---
+# Service to expose the app
+apiVersion: v1
+kind: Service
+metadata:
+  name: moneymap-service
+spec:
+  selector:
+    app: moneymap
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
