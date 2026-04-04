@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: moneymap
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Mayookha05/Moneymap.git
+    targetRevision: master
+    path: kubernetes
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
