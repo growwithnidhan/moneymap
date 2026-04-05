@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Money Map - Add Expense</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h2 { text-align: center; color: #1a1a2e; }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        label { color: #555; font-weight: bold; }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover { background: #c73652; }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #e94560;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>➕ Add Expense</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label>Category</label>
+            <select name="category">
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <label>Amount (₹)</label>
+            <input type="number" name="amount" placeholder="Enter amount" required>
+            <label>Description</label>
+            <input type="text" name="description" placeholder="e.g. Zomato order" required>
+            <button type="submit">Add Expense</button>
+        </form>
+        <a href="/dashboard/">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

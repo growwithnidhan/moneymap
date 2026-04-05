@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Money Map - Set Budget</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h2 { text-align: center; color: #1a1a2e; }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        label { color: #555; font-weight: bold; }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #0f3460;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover { background: #0a2540; }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #e94560;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>💰 Set Your Budget</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label>Daily Budget (₹)</label>
+            <input type="number" name="daily_limit" placeholder="e.g. 500" required>
+            <label>Monthly Budget (₹)</label>
+            <input type="number" name="monthly_limit" placeholder="e.g. 25000" required>
+            <button type="submit">Save Budget</button>
+        </form>
+        <a href="/dashboard/">← Back to Dashboard</a>
+    </div>
+</body>
+</html>
