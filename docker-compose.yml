@@ -9,8 +9,18 @@ services:
       - .:/app
     environment:
       - DEBUG=True
+      - DB_ENGINE=django.db.backends.mysql
+      - DB_NAME=moneymap
+      - DB_USER=root
+      - DB_PASSWORD=moneymap123
+      - DB_HOST=db
+      - DB_PORT=3306
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
 
   db:
     image: mysql:8.0
@@ -18,4 +28,9 @@ services:
       MYSQL_DATABASE: moneymap
       MYSQL_ROOT_PASSWORD: moneymap123
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pmoneymap123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

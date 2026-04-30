@@ -137,6 +137,32 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         .chart-section h3 { color: #1a1a2e; margin-bottom: 15px; }
+        .pie-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .pie-legend { flex: 1; }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .legend-label { font-size: 14px; color: #555; }
+        .legend-amount {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-left: auto;
+        }
         .buttons {
             display: flex;
             gap: 10px;
@@ -153,6 +179,7 @@
             color: white;
         }
         .btn-add { background: #e94560; }
+        .btn-parser { background: #fd7e14; }
         .btn-budget { background: #0f3460; }
         .btn-summary { background: #6f42c1; }
         .btn-export { background: #28a745; }
@@ -251,7 +278,28 @@
     </div>
     {% endif %}
 
-    <!-- Spending Trend Chart -->
+    <!-- Pie Chart -->
+    {% if insights %}
+    <div class="chart-section">
+        <h3>🥧 Spending Breakdown — Pie Chart</h3>
+        <div class="pie-container">
+            <div style="width: 280px; height: 280px;">
+                <canvas id="pieChart"></canvas>
+            </div>
+            <div class="pie-legend">
+                {% for item in insights %}
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: {{ item.color }};"></div>
+                    <span class="legend-label">{{ item.category }}</span>
+                    <span class="legend-amount">₹{{ item.amount }} ({{ item.percentage }}%)</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Line Chart -->
     {% if chart_labels %}
     <div class="chart-section">
         <h3>📈 Daily Spending Trend This Month</h3>
@@ -259,13 +307,15 @@
     </div>
     {% endif %}
 
-    <div class="buttons">
-        <a href="/add-expense/" class="btn btn-add">+ Add Expense</a>
-        <a href="/set-budget/" class="btn btn-budget">⚙️ Set Budget</a>
-        <a href="/monthly-summary/" class="btn btn-summary">📅 Monthly Summary</a>
-        <a href="/export-csv/" class="btn btn-export">⬇️ Export CSV</a>
-        <a href="/logout/" class="btn btn-logout">Logout</a>
-    </div>
+   <div class="buttons">
+    <a href="/add-expense/" class="btn btn-add">➕ Add Expense</a>
+    <a href="/parse-notification/" class="btn btn-parser">📱 Smart Parser</a>
+    <a href="/set-budget/" class="btn btn-budget">⚙️ Set Budget</a>
+    <a href="/monthly-summary/" class="btn btn-summary">📅 Monthly Summary</a>
+    <a href="/export-csv/" class="btn btn-export">⬇️ CSV</a>
+    <a href="/download-report/" class="btn btn-export" style="background:#dc3545;">📄 PDF Report</a>
+    <a href="/logout/" class="btn btn-logout">Logout</a>
+   </div>
 
     <table>
         <tr>
@@ -291,6 +341,7 @@
     </table>
 
     <script>
+        // Line Chart
         const labels = {{ chart_labels|safe }};
         const data = {{ chart_data|safe }};
 
@@ -312,15 +363,47 @@
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
                                 callback: function(value) {
                                     return '₹' + value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Pie Chart
+        const pieLabels = {{ pie_labels|safe }};
+        const pieData = {{ pie_data|safe }};
+        const pieColors = {{ pie_colors|safe }};
+
+        if (pieLabels.length > 0) {
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: pieLabels,
+                    datasets: [{
+                        data: pieData,
+                        backgroundColor: pieColors,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ₹' + context.parsed;
                                 }
                             }
                         }

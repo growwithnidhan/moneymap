@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Money Map - Monthly Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .insight-box {
+            background: #e8f4fd;
+            border: 1px solid #0f3460;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #0f3460;
+            font-weight: bold;
+        }
+        .month-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .month-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        .month-amount {
+            font-size: 22px;
+            font-weight: bold;
+            color: #e94560;
+        }
+        .bar-track {
+            background: #eee;
+            border-radius: 10px;
+            height: 12px;
+            margin-bottom: 8px;
+        }
+        .bar-green {
+            background: #28a745;
+            height: 12px;
+            border-radius: 10px;
+        }
+        .bar-yellow {
+            background: #ffc107;
+            height: 12px;
+            border-radius: 10px;
+        }
+        .bar-red {
+            background: #e94560;
+            height: 12px;
+            border-radius: 10px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            color: white;
+            background: #0f3460;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        small { color: #999; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>💰 Money Map</h2>
+        <span>Monthly Summary</span>
+    </div>
+
+    <a href="/dashboard/" class="btn">← Back to Dashboard</a>
+
+    <div class="insight-box">{{ summary_message }}</div>
+
+    {% if monthly_data %}
+        {% for month, amount in monthly_data %}
+        <div class="month-card">
+            <div class="month-header">
+                <span class="month-name">📅 {{ month }}</span>
+                <span class="month-amount">₹{{ amount }}</span>
+            </div>
+            <div class="bar-track">
+                {% if amount < 5000 %}
+                    <div class="bar-green" style="width: {% widthratio amount 25000 100 %}%"></div>
+                {% elif amount < 20000 %}
+                    <div class="bar-yellow" style="width: {% widthratio amount 25000 100 %}%"></div>
+                {% else %}
+                    <div class="bar-red" style="width: {% widthratio amount 25000 100 %}%"></div>
+                {% endif %}
+            </div>
+            <small>
+                {% if amount < 5000 %}
+                    ✅ Good spending this month!
+                {% elif amount < 20000 %}
+                    ⚠️ Moderate spending — keep an eye on it
+                {% else %}
+                    🚨 High spending this month!
+                {% endif %}
+            </small>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-data">
+            <h3>No expense data yet!</h3>
+            <p>Start adding expenses to see your monthly summary here.</p>
+            <a href="/add-expense/" style="color: #e94560;">+ Add your first expense</a>
+        </div>
+    {% endif %}
+
+</body>
+</html>

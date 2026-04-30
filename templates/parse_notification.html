@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Money Map - Smart Parser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 { color: #1a1a2e; margin-bottom: 5px; }
+        p { color: #666; margin-bottom: 20px; }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            height: 120px;
+            box-sizing: border-box;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+        }
+        textarea:focus {
+            border-color: #e94560;
+            outline: none;
+        }
+        .examples {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .examples h4 { color: #555; margin: 0 0 10px; }
+        .example-text {
+            font-size: 12px;
+            color: #888;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+        .example-text:hover { border-color: #e94560; color: #e94560; }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        button:hover { background: #c73652; }
+        .success-card {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .success-card h3 { color: #2e7d32; margin-bottom: 15px; }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #c8e6c9;
+        }
+        .result-row:last-child { border-bottom: none; }
+        .result-label { color: #555; font-weight: bold; }
+        .result-value { color: #1a1a2e; font-weight: bold; }
+        .warning-box {
+            background: #ffe0e0;
+            border: 1px solid #ff4444;
+            padding: 15px;
+            border-radius: 10px;
+            color: #cc0000;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .error-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 10px;
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0f3460;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .btn-another {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #e94560;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        .steps {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .step {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .step-num {
+            width: 30px;
+            height: 30px;
+            background: #e94560;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-weight: bold;
+        }
+        .step p { font-size: 12px; color: #666; margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>💰 Money Map</h2>
+        <span>Smart Notification Parser</span>
+    </div>
+
+    <div class="container">
+
+        {% if not parsed %}
+        <div class="card">
+            <h2>📱 Paste Your Payment Notification</h2>
+            <p>Copy any payment notification from your phone and paste it below. We'll automatically extract the details!</p>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <p>Copy notification from phone</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <p>Paste it below</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <p>We extract details automatically</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <p>Dashboard updates instantly</p>
+                </div>
+            </div>
+
+            <div class="examples">
+                <h4>📋 Click an example to try:</h4>
+                <div class="example-text" onclick="document.getElementById('notif').value=this.innerText">
+                    Your HDFC account debited ₹650 at Swiggy on 09-04-2026
+                </div>
+                <div class="example-text" onclick="document.getElementById('notif').value=this.innerText">
+                    Rs. 450 debited from your SBI account to Zomato on 09-04-2026
+                </div>
+                <div class="example-text" onclick="document.getElementById('notif').value=this.innerText">
+                    UPI payment of ₹200 to Uber on 09-04-2026 is successful
+                </div>
+                <div class="example-text" onclick="document.getElementById('notif').value=this.innerText">
+                    Your account has been debited with INR 1500 at Amazon on 09-04-2026
+                </div>
+                <div class="example-text" onclick="document.getElementById('notif').value=this.innerText">
+                    ₹300 paid to Netflix via UPI on 09-04-2026
+                </div>
+            </div>
+
+            {% if error %}
+            <div class="error-box">⚠️ {{ error }}</div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <textarea id="notif" name="notification_text" 
+                    placeholder="Paste your payment notification here...
+Example: Your HDFC account debited ₹650 at Swiggy on 09-04-2026"></textarea>
+                <button type="submit">🔍 Parse Notification</button>
+            </form>
+        </div>
+        {% endif %}
+
+        {% if parsed %}
+        <div class="success-card">
+            <h3>✅ Notification Parsed Successfully!</h3>
+            <div class="result-row">
+                <span class="result-label">Amount</span>
+                <span class="result-value">₹{{ parsed.amount }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">Merchant</span>
+                <span class="result-value">{{ parsed.merchant }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">Category</span>
+                <span class="result-value">{{ parsed.category }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">Status</span>
+                <span class="result-value" style="color: #4caf50;">Added to dashboard ✅</span>
+            </div>
+
+            {% if parsed.warning %}
+            <div class="warning-box">{{ parsed.warning }}</div>
+            {% endif %}
+        </div>
+
+        <a href="/dashboard/" class="btn-back">📊 View Dashboard</a>
+        <a href="/parse-notification/" class="btn-another">📱 Parse Another</a>
+        {% endif %}
+
+    </div>
+</body>
+</html>

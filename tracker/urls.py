@@ -10,4 +10,7 @@ urlpatterns = [
     path('set-budget/', views.set_budget_view, name='set_budget'),
     path('monthly-summary/', views.monthly_summary_view, name='monthly_summary'),
     path('export-csv/', views.export_csv_view, name='export_csv'),
+    path('parse-notification/', views.parse_notification_view, name='parse_notification'),
+    path('download-report/', views.report_page_view, name='report_page'),
+    path('generate-report/', views.download_report_view, name='download_report'),
 ]

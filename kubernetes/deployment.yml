@@ -16,6 +16,7 @@ spec:
       containers:
       - name: moneymap
         image: moneymap:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 8000
 

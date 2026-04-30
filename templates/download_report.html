@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Money Map - Download Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 { color: #1a1a2e; margin-bottom: 5px; }
+        p { color: #666; margin-bottom: 20px; }
+        label {
+            display: block;
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:hover { background: #c73652; }
+        .btn-back {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0f3460;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        .info-box {
+            background: #e8f4fd;
+            border: 1px solid #0f3460;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #0f3460;
+        }
+        .info-box ul {
+            margin: 10px 0 0;
+            padding-left: 20px;
+        }
+        .info-box li { margin-bottom: 5px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>💰 Money Map</h2>
+        <span>Download Report</span>
+    </div>
+
+    <div class="container">
+        <a href="/dashboard/" class="btn-back">← Back to Dashboard</a>
+
+        <div class="info-box">
+            <strong>📄 Your PDF report will include:</strong>
+            <ul>
+                <li>Monthly summary — total spent vs budget</li>
+                <li>Daily expense table with limit status</li>
+                <li>Days where daily limit was exceeded highlighted in red</li>
+                <li>All transactions for the month</li>
+                <li>Category-wise spending breakdown</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>📥 Download Monthly Report</h2>
+            <p>Select the month and year you want to download the report for.</p>
+
+            <form method="get" action="/generate-report/">
+                <label>Select Month</label>
+                <select name="month">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4" selected>April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+
+                <label>Select Year</label>
+                <select name="year">
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                </select>
+
+                <button type="submit">⬇️ Download PDF Report</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
