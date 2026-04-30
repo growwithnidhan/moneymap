@@ -10,7 +10,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'brew install pkg-config mysql-client'
+                sh '/opt/homebrew/bin/brew install pkg-config mysql-client'
                 sh '/opt/homebrew/bin/pip3 install -r requirements.txt --break-system-packages'
             }
         }
