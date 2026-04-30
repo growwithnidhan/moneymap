@@ -10,7 +10,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '/opt/homebrew/bin/pip3 install -r requirements.txt'
+                sh '/opt/homebrew/bin/pip3 install -r requirements.txt --break-system-packages'
             }
         }
 
