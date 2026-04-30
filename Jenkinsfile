@@ -4,31 +4,25 @@ pipeline {
     stages {
         stage('Clone Code') {
             steps {
-                git 'https://github.com/Mayookha05/Moneymap.git'
+                git branch: 'master', url: 'https://github.com/growwithnidhan/moneymap.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'pip3 install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'python manage.py test'
+                sh 'python3 manage.py test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t moneymap .'
-            }
-        }
-
-        stage('Push to Docker Hub') {
-            steps {
-                sh 'docker push moneymap:latest'
+                sh 'docker build -t moneymap:latest .'
             }
         }
 
@@ -41,7 +35,7 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'Pipeline succeeded!'
         }
         failure {
             echo 'Pipeline failed!'
