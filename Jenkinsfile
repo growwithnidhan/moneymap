@@ -30,17 +30,17 @@ pipeline {
     }
 }
 
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t moneymap:latest .'
-            }
-        }
+       stage('Build Docker Image') {
+    steps {
+        sh '/usr/local/bin/docker build -t moneymap:latest .'
+    }
+}
 
         stage('Deploy to Kubernetes') {
-            steps {
-                sh 'kubectl apply -f kubernetes/deployment.yml'
-            }
-        }
+    steps {
+        sh '/usr/local/bin/kubectl apply -f kubernetes/deployment.yml'
+    }
+}
     }
 
     post {
