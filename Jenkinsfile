@@ -10,7 +10,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '/opt/homebrew/anaconda3/bin/pip install -r requirements.txt'
+                sh '/opt/homebrew/bin/pip3 install -r requirements.txt'
             }
         }
 
