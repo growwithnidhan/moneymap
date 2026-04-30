@@ -30,9 +30,12 @@ pipeline {
     }
 }
 
-       stage('Build Docker Image') {
+     stage('Build Docker Image') {
     steps {
-        sh '/usr/local/bin/docker build -t moneymap:latest .'
+        sh '''
+            export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+            /usr/local/bin/docker build -t moneymap:latest .
+        '''
     }
 }
 
