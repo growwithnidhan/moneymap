@@ -19,11 +19,16 @@ pipeline {
     }
 }
 
-        stage('Run Tests') {
-            steps {
-                sh 'python3 manage.py test'
-            }
-        }
+       stage('Run Tests') {
+    steps {
+        sh '''
+            export PATH="/opt/homebrew/bin:$PATH"
+            export MYSQLCLIENT_CFLAGS="-I/opt/homebrew/opt/mysql-client/include/mysql"
+            export MYSQLCLIENT_LDFLAGS="-L/opt/homebrew/opt/mysql-client/lib -lmysqlclient"
+            /opt/homebrew/bin/python3 manage.py test
+        '''
+    }
+}
 
         stage('Build Docker Image') {
             steps {
