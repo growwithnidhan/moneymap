@@ -8,12 +8,16 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh '/opt/homebrew/bin/brew install pkg-config mysql-client'
-                sh '/opt/homebrew/bin/pip3 install -r requirements.txt --break-system-packages'
-            }
-        }
+       stage('Install Dependencies') {
+    steps {
+        sh '''
+            export PATH="/opt/homebrew/bin:$PATH"
+            export MYSQLCLIENT_CFLAGS=$(pkg-config --cflags mysqlclient 2>/dev/null || echo "-I/opt/homebrew/opt/mysql-client/include/mysql")
+            export MYSQLCLIENT_LDFLAGS=$(pkg-config --libs mysqlclient 2>/dev/null || echo "-L/opt/homebrew/opt/mysql-client/lib -lmysqlclient")
+            /opt/homebrew/bin/pip3 install -r requirements.txt --break-system-packages
+        '''
+    }
+}
 
         stage('Run Tests') {
             steps {
